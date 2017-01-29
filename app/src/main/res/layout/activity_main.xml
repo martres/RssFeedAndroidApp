@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rootViewScreen"
+    android:backgroundTint="@color/fond_material_dark"
+    android:background="@color/fond_material_dark">
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/fond_accueil"
+        android:backgroundTint="@color/off_white"
+        android:background="@color/off_white"
+        tools:layout_width="wrap_content"
+        android:layout_marginTop="62dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+    <TextView
+        android:id="@+id/bienvenue"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:text="Bienvenue"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:layout_alignEnd="@+id/Email" />
+
+        <EditText
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Password"
+            android:textSize="20sp"
+            android:textColor="@color/abc_primary_text_material_light"
+            android:inputType="text|textPassword"
+            android:hint="Password"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_below="@+id/Email"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/Insciption" />
+
+        <EditText
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Email"
+            android:textSize="20sp"
+            android:textColor="@color/abc_primary_text_material_light"
+            android:inputType="text"
+            android:hint="Email"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_marginTop="36dp"
+            android:layout_below="@+id/bienvenue"
+            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/Password" />
+
+    <Button
+
+        android:text="Insciption"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/Insciption"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_below="@+id/Password" />
+
+        <Button
+
+            android:text="Connexion"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Connexion"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/Insciption" />
+
+    </RelativeLayout>
+</RelativeLayout>

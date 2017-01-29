@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="@color/off_white"
+    android:padding="6dp" android:id="@+id/rootView">
+
+    <TextView
+        android:id="@+id/TitleFeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:textSize="16sp"
+        android:textColor="@color/fond_material_dark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" android:text="Title"
+        android:gravity="center_vertical"
+        android:paddingTop="8dp" android:paddingBottom="8dp" android:typeface="serif" android:paddingLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/DescriptionFeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:textSize="14sp"
+        android:textColor="@color/primary_text_default_material_light"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="true" android:text="Description" android:layout_below="@+id/TitleFeed"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp" android:paddingLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/DateFeed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:textSize="12sp"
+        android:textColor="@color/text_secondary"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="false" android:text="Date"
+        android:layout_below="@+id/DescriptionFeed" android:layout_marginLeft="16dp" android:paddingLeft="8dp"
+        android:paddingRight="8dp" android:paddingBottom="8dp" android:gravity="center_vertical|right"/>
+
+</RelativeLayout>

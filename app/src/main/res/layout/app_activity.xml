@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="100"
+    android:background="@color/fond_material_dark">
+    >
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_weight="75"
+        android:background="@color/fond_material"
+        android:elevation="8dp"
+        android:layout_width="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/fond_material_dark" android:background="@color/fond_material_dark"
+            android:elevation="12dp" android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EmailUser"
+                android:id="@+id/EmailUser"
+                android:textSize="16sp" android:layout_marginLeft="8dp"
+                android:singleLine="true"
+                android:typeface="serif" android:textColor="@color/off_white"
+                android:layout_marginTop="20dp"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/Menu"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_alignParentLeft="true" android:layout_marginLeft="0dp"
+            android:layout_alignParentTop="false" android:layout_below="@+id/fond_material_dark"/>
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="25"
+        android:layout_height="match_parent"
+        android:id="@+id/MainLayout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutGet"
+            android:background="@color/fond_material_dark"
+            tools:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_toEndOf="@+id/FeedRecycler"
+            android:layout_centerVertical="true">
+
+            <android.support.v7.widget.RecyclerView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/FeedRecycler"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true">
+
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/LayoutAdd"
+            android:backgroundTint="@color/off_white"
+            android:background="@color/off_white"
+            tools:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_toEndOf="@+id/FeedRecycler"
+            android:layout_centerVertical="true"
+            android:visibility="gone">
+
+            <Button
+
+                android:text="Envoyer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/SendFlux"
+                android:layout_below="@+id/Lien"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Lien"
+                android:textSize="20sp"
+                android:textColor="@color/abc_primary_text_material_light"
+                android:inputType="text"
+                android:hint="Entrez le lien"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
