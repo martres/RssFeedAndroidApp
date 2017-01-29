@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile group: 'rome', name: 'rome', version: '0.9'
 }

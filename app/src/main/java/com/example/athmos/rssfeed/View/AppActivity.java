@@ -2,6 +2,7 @@ package com.example.athmos.rssfeed.View;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.example.athmos.rssfeed.Model.FeedItem;
 import com.example.athmos.rssfeed.R;
 import com.example.athmos.rssfeed.View.Adapters.FeedAdapter;
 import com.example.athmos.rssfeed.View.Adapters.FluxAdapter;
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.SyndFeedInput;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,7 +25,9 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,10 +72,36 @@ public class AppActivity extends AppCompatActivity {
             @Override
                 public void onClick(View v) {
                 if (urlEdit.length() > 10) {
-                    ApiManager.getInstance(v.getContext()).addLink(AppActivity.this, urlEdit.getText().toString());
+                    int SDK_INT = android.os.Build.VERSION.SDK_INT;
+                    if (SDK_INT > 8 && goodUrl(urlEdit.getText().toString()))
+                    {
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                                .permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        try {
+                            ApiManager.getInstance(v.getContext()).pushFlux(AppActivity.this, urlEdit.getText().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         });
+    }
+
+    public boolean goodUrl(String address) {
+        boolean ok = false;
+        try{
+            URL feedUrl = null;
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed sf = null;
+            feedUrl = new URL(address);
+            sf = input.build(new com.sun.syndication.io.XmlReader(feedUrl));
+            ok = true;
+        } catch (Exception exc){
+            exc.printStackTrace();
+        }
+        return ok;
     }
 
     public void onClickDeco() {
@@ -86,7 +117,17 @@ public class AppActivity extends AppCompatActivity {
     }
 
     public void onClickGetFlux() {
-        ApiManager.getInstance(this).getFlux(this);
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            try {
+                ApiManager.getInstance(this).getFlux(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 

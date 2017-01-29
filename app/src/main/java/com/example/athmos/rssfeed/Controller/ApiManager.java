@@ -15,10 +15,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Created by athmos on 26/01/17.
@@ -144,8 +148,46 @@ public class ApiManager {
     }
 
 
+    public void pushFlux(final AppActivity activity, String urlParam) throws IOException {
+        String response = sendPostRequest(urlServer + "feed/addFeeds", "feedUrl=" + urlParam, true);
+        getFlux(activity);
+    }
+
+    private static String sendPostRequest(String urlConnect, String urlParameters, Boolean withToken) throws IOException {
+        URL obj = new URL(urlConnect);
+        System.out.print(urlConnect);
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+        con.setRequestMethod("POST");
+        if (withToken)
+            con.addRequestProperty("token", Singleton.getInstance().getUser().token);
+        con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+        // Send post request
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(urlParameters);
+        wr.flush();
+        wr.close();
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'POST' request to URL : " + urlConnect);
+        System.out.println("Post parameters : " + urlParameters);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        System.out.println(response.toString());
+        return response.toString();
+    }
+
+
     public void                     addLink(final AppActivity activity, final String link)
     {
+        System.out.println(link);
             listRequestApi.add(new StringRequest(Request.Method.POST, urlServer + "feed/addFeeds",
                     new Response.Listener<String>() {
                         @Override
@@ -187,8 +229,54 @@ public class ApiManager {
             });
     }
 
+    private static String sendGet(String url, Boolean withToken) throws Exception {
 
-    public void getFlux(final AppActivity appActivity) {
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        if (withToken)
+            con.addRequestProperty("token" , Singleton.getInstance().getUser().token);
+
+        // optional default is GET
+        con.setRequestMethod("GET");
+
+        //add request header
+
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+        System.out.println(response.toString());
+        return response.toString();
+    }
+
+    public void getFlux(AppActivity appActivity) throws  IOException {
+        String urlConnect = urlServer + "feed/getFeeds";
+        try {
+            String response = sendGet(urlConnect, true);
+            Gson gson = new Gson();
+            JsonObject feedList = gson.fromJson(response, JsonObject.class);
+            if (Objects.equals(feedList.get("message").toString(), "\"ko\"")) {
+                return;
+            }
+            List<Feed> flux = gson.fromJson(feedList.getAsJsonObject("feedList").getAsJsonArray("feedList"), new TypeToken<ArrayList<Feed>>(){}.getType());
+            appActivity.onResponseGetFlux(flux);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+/*    public void getFlux(final AppActivity appActivity) {
         listRequestApi.add(new StringRequest(Request.Method.GET, urlServer + "feed/getFeeds",
                 new Response.Listener<String>() {
                     @Override
@@ -214,11 +302,12 @@ public class ApiManager {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headerLocal = new HashMap<>();
+                headerLocal.put("Content-Type", "application/json");
                 headerLocal.put("token", singleton.getUser().token);
                 return headerLocal;
             }
         });
-    }
+    }*/
 
     public void getRSSContent(Feed lien, final AppActivity appActivity) {
         listRequestApi.add(new StringRequest(Request.Method.GET, lien.getUrl(),
